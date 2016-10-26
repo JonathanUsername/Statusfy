@@ -76,7 +76,7 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
 
 - (NSAppleEventDescriptor *)executeAppleScript:(NSString *)command
 {
-    command = [NSString stringWithFormat:@"tell application \"Google Chrome\" \n repeat with w in (every window)\n repeat with t in (every tab whose URL contains \"mixcloud.com/lowlight\") of w\n tell t to execute javascript \"%@\"\n end repeat\n end repeat\n end tell\n", command];
+    command = [NSString stringWithFormat:@"tell application \"Google Chrome\" \n repeat with w in (every window)\n repeat with t in (every tab whose URL contains \"mixcloud.com\") of w\n tell t to execute javascript \"%@\"\n end repeat\n end repeat\n end tell\n", command];
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:command];
     NSAppleEventDescriptor *eventDescriptor = [appleScript executeAndReturnError:NULL];
     return eventDescriptor;
