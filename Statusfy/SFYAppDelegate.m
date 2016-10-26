@@ -50,8 +50,8 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
 
 - (void)setStatusItemTitle
 {
-    NSString *trackName = [[self executeAppleScript:@"get name of current track"] stringValue];
-    NSString *artistName = [[self executeAppleScript:@"get artist of current track"] stringValue];
+    NSString *trackName = [[self executeAppleScript:@"document.querySelector('.mz-current-track').textContent"] stringValue];
+    NSString *artistName = [[self executeAppleScript:@"document.querySelector('.mz-current-artist span').textContent"] stringValue];
     
     if (trackName && artistName) {
         NSString *titleText = [NSString stringWithFormat:@"%@ - %@", trackName, artistName];
@@ -76,7 +76,7 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
 
 - (NSAppleEventDescriptor *)executeAppleScript:(NSString *)command
 {
-    command = [NSString stringWithFormat:@"if application \"Spotify\" is running then tell application \"Spotify\" to %@", command];
+    command = [NSString stringWithFormat:@"tell application \"Google Chrome\" \n repeat with w in (every window)\n repeat with t in (every tab whose URL contains \"mixcloud.com/lowlight\") of w\n tell t to execute javascript \"%@\"\n end repeat\n end repeat\n end tell\n", command];
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:command];
     NSAppleEventDescriptor *eventDescriptor = [appleScript executeAndReturnError:NULL];
     return eventDescriptor;
