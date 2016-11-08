@@ -50,11 +50,25 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
 
 - (void)setStatusItemTitle
 {
-    NSString *trackName = [[self executeAppleScript:@"document.querySelector('.mz-current-track').textContent"] stringValue];
-    NSString *artistName = [[self executeAppleScript:@"document.querySelector('.mz-current-artist span').textContent"] stringValue];
+    NSString *trackName = [[self executeAppleScript:@"get name of current track"] stringValue];
+    NSString *artistName = [[self executeAppleScript:@"get artist of current track"] stringValue];
+    NSString *mixcloudInfo = [[self executeMXAppleScript:@"\
+        if application \"Google Chrome\" is running then \n\
+            tell application \"Google Chrome\" \n\
+                repeat with w in (every window)\n\
+                    repeat with t in (every tab whose URL contains \"mixcloud.com\") of w\n\
+                        tell t to execute javascript \"document.querySelector('.mz-current-track').textContent + ' - ' + document.querySelector('.mz-current-artist span').textContent\"\n\
+                    end repeat\n\
+                end repeat\n\
+            end tell\n\
+        end if"] stringValue];
     
     if (trackName && artistName) {
         NSString *titleText = [NSString stringWithFormat:@"%@ - %@", trackName, artistName];
+        
+        if (mixcloudInfo) {
+            titleText = [NSString stringWithFormat:@"%@ | %@ - %@", mixcloudInfo, trackName, artistName];
+        }
         
         if ([self getPlayerStateVisibility]) {
             NSString *playerState = [self determinePlayerStateText];
@@ -76,7 +90,15 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
 
 - (NSAppleEventDescriptor *)executeAppleScript:(NSString *)command
 {
-    command = [NSString stringWithFormat:@"tell application \"Google Chrome\" \n repeat with w in (every window)\n repeat with t in (every tab whose URL contains \"mixcloud.com\") of w\n tell t to execute javascript \"%@\"\n end repeat\n end repeat\n end tell\n", command];
+    command = [NSString stringWithFormat:@"if application \"Spotify\" is running then tell application \"Spotify\" to %@", command];
+    NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:command];
+    NSAppleEventDescriptor *eventDescriptor = [appleScript executeAndReturnError:NULL];
+    return eventDescriptor;
+}
+
+- (NSAppleEventDescriptor *)executeMXAppleScript:(NSString *)command
+{
+    command = [NSString stringWithFormat:@"%@", command];
     NSAppleScript *appleScript = [[NSAppleScript alloc] initWithSource:command];
     NSAppleEventDescriptor *eventDescriptor = [appleScript executeAndReturnError:NULL];
     return eventDescriptor;
