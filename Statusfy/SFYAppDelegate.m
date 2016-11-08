@@ -53,37 +53,46 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
     NSString *trackName = [[self executeAppleScript:@"get name of current track"] stringValue];
     NSString *artistName = [[self executeAppleScript:@"get artist of current track"] stringValue];
     NSString *mixcloudInfo = [[self executeMXAppleScript:@"\
-        if application \"Google Chrome\" is running then \n\
             tell application \"Google Chrome\" \n\
                 repeat with w in (every window)\n\
                     repeat with t in (every tab whose URL contains \"mixcloud.com\") of w\n\
-                        tell t to execute javascript \"document.querySelector('.mz-current-track').textContent + ' - ' + document.querySelector('.mz-current-artist span').textContent\"\n\
+                        tell t to execute javascript \"\
+                               Array.prototype.indexOf.call(document.querySelector('.mz-player-control').classList, 'mz-pause-state') !== -1 ? document.querySelector('.mz-current-track').textContent + ' - ' + document.querySelector('.mz-current-artist span').textContent + ' ' + '(M)' : '' \
+                            \"\n\
                     end repeat\n\
                 end repeat\n\
-            end tell\n\
-        end if"] stringValue];
+            end tell"] stringValue];
     
-    if (trackName && artistName) {
-        NSString *titleText = [NSString stringWithFormat:@"%@ - %@", trackName, artistName];
-        
-        if (mixcloudInfo) {
-            titleText = [NSString stringWithFormat:@"%@ | %@ - %@", mixcloudInfo, trackName, artistName];
-        }
-        
-        if ([self getPlayerStateVisibility]) {
-            NSString *playerState = [self determinePlayerStateText];
-            titleText = [NSString stringWithFormat:@"%@ (%@)", titleText, playerState];
-        }
-        
-        self.statusItem.image = nil;
-        self.statusItem.title = titleText;
+    NSString *titleText = @"";
+    
+    NSString *spotifyState = [self determinePlayerStateText];
+    
+    BOOL spotifyPlaying = false;
+    
+    if ([spotifyState isEqualToString:@"Playing"]) {
+        spotifyPlaying = true;
     }
-    else {
-        NSImage *image = [NSImage imageNamed:@"status_icon"];
-        [image setTemplate:true];
-        self.statusItem.image = image;
-        self.statusItem.title = nil;
+    
+    if (trackName && artistName && spotifyPlaying) {
+        titleText = [NSString stringWithFormat:@"%@ %@ - %@ (S)", titleText, trackName, artistName];
     }
+    
+    self.statusItem.image = nil;
+    
+    if (mixcloudInfo) {
+        titleText = [NSString stringWithFormat:@"%@ %@", mixcloudInfo, titleText];
+//        NSImage *image = [NSImage imageNamed:@"mixcloud_icon"];
+//        [image setTemplate:true];
+//        self.statusItem.image = image;
+    }
+    
+    if ([self getPlayerStateVisibility]) {
+        NSString *playerState = [self determinePlayerStateText];
+        titleText = [NSString stringWithFormat:@"%@ (%@)", titleText, playerState];
+    }
+    
+    self.statusItem.title = titleText;
+
 }
 
 #pragma mark - Executing AppleScript

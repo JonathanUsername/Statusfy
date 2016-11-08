@@ -20,6 +20,8 @@
 		2C87977018FF06E700AE2A45 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C87974F18FF06E600AE2A45 /* Cocoa.framework */; };
 		2C87977818FF06E700AE2A45 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C87977618FF06E700AE2A45 /* InfoPlist.strings */; };
 		2C87977A18FF06E700AE2A45 /* StatusfyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C87977918FF06E700AE2A45 /* StatusfyTests.m */; };
+		AB3862CD1DD22C540037C755 /* mixcloud_status@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB3862CC1DD22C540037C755 /* mixcloud_status@2x.png */; };
+		AB3862CF1DD22C580037C755 /* mixcloud_status.png in Resources */ = {isa = PBXBuildFile; fileRef = AB3862CE1DD22C580037C755 /* mixcloud_status.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		2C87977518FF06E700AE2A45 /* StatusfyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StatusfyTests-Info.plist"; sourceTree = "<group>"; };
 		2C87977718FF06E700AE2A45 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2C87977918FF06E700AE2A45 /* StatusfyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusfyTests.m; sourceTree = "<group>"; };
+		AB3862CC1DD22C540037C755 /* mixcloud_status@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mixcloud_status@2x.png"; sourceTree = "<group>"; };
+		AB3862CE1DD22C580037C755 /* mixcloud_status.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mixcloud_status.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +137,8 @@
 			children = (
 				2C1A3400191168C300D631C2 /* status_icon.png */,
 				2C1A3401191168C300D631C2 /* status_icon@2x.png */,
+				AB3862CC1DD22C540037C755 /* mixcloud_status@2x.png */,
+				AB3862CE1DD22C580037C755 /* mixcloud_status.png */,
 				2C87975718FF06E600AE2A45 /* Statusfy-Info.plist */,
 				2C87975818FF06E600AE2A45 /* InfoPlist.strings */,
 				2C87975B18FF06E600AE2A45 /* main.m */,
@@ -239,9 +245,11 @@
 			files = (
 				2C87975A18FF06E600AE2A45 /* InfoPlist.strings in Resources */,
 				2C87976818FF06E600AE2A45 /* Images.xcassets in Resources */,
+				AB3862CD1DD22C540037C755 /* mixcloud_status@2x.png in Resources */,
 				2C87976018FF06E600AE2A45 /* Credits.rtf in Resources */,
 				2C1A3402191168C300D631C2 /* status_icon.png in Resources */,
 				2C87976618FF06E600AE2A45 /* MainMenu.xib in Resources */,
+				AB3862CF1DD22C580037C755 /* mixcloud_status.png in Resources */,
 				2C1A3403191168C300D631C2 /* status_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
