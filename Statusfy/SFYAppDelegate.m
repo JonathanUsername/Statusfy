@@ -57,7 +57,7 @@ static NSString * const SFYPlayerDockIconPreferenceKey = @"YES";
                 repeat with w in (every window)\n\
                     repeat with t in (every tab whose URL contains \"mixcloud.com\") of w\n\
                         tell t to execute javascript \"\
-                               Array.prototype.indexOf.call(document.querySelector('.mz-player-control').classList, 'mz-pause-state') !== -1 ? document.querySelector('.mz-current-track').textContent + ' - ' + document.querySelector('.mz-current-artist span').textContent + ' ' + '(M)' : '' \
+                               Array.prototype.indexOf.call(document.querySelector('.player-control').classList, 'pause-state') !== -1 ? document.querySelector('.current-track').textContent + ' - ' + document.querySelector('.current-artist span').textContent + ' ' + '(M)' : '' \
                             \"\n\
                     end repeat\n\
                 end repeat\n\
